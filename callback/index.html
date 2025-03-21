@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Authorization Callback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Spotify Authorization</h2>
+        <div class="spinner" id="spinner"></div>
+        <p id="message">Processing authentication...</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Extract the hash fragment from the URL
+            const hash = window.location.hash.substring(1);
+            
+            if (hash) {
+                // Get base URL (without /callback)
+                const baseUrl = window.location.origin;
+                
+                // Redirect to the main page with the hash
+                window.location.href = baseUrl + '/#' + hash;
+            } else {
+                // If there's no hash, show an error
+                document.getElementById('spinner').style.display = 'none';
+                document.getElementById('message').innerText = 'Authentication error. Please try again.';
+                
+                // Redirect to the main page after 3 seconds
+                setTimeout(function() {
+                    window.location.href = window.location.origin;
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
